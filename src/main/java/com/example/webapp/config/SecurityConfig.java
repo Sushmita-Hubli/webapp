@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -35,7 +36,18 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("POST", "/v1/user").permitAll()
+                        // PUBLIC: Anyone can create a user account
+                        .requestMatchers(HttpMethod.POST, "/v1/user").permitAll()
+
+                        // PUBLIC: Anyone can read products (GET only)
+                        .requestMatchers(HttpMethod.GET, "/v1/product/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/product").permitAll()
+
+                        // PUBLIC: Health checks
+                        .requestMatchers(HttpMethod.GET, "/v1/user/health").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/product/health").permitAll()
+
+                        // PROTECTED: Everything else requires authentication
                         .anyRequest().authenticated()
                 )
 
