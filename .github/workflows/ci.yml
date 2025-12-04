@@ -28,30 +28,26 @@ jobs:
 
       # Step 3: Cache Maven dependencies
       - name: Cache Maven packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # Step 4: Install dependencies
-      - name: Install dependencies
-        run: mvn clean install -DskipTests
-
-      # Step 5: Run integration tests
+      # Step 4: Run tests
       - name: Run integration tests
-        run: mvn test
+        run: mvn clean test
 
-      # Step 6: Upload test results (optional)
+      # Step 5: Upload test results (optional but helpful)
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: target/surefire-reports/
 
-      # Step 7: Publish test report (optional)
+      # Step 6: Publish test report (optional)
       - name: Publish test report
         if: always()
         uses: dorny/test-reporter@v1
