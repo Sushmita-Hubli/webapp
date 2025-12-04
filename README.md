@@ -167,7 +167,4 @@ Solution: Make sure MySQL is running and database is created
 Author
 Sushmita Hubli
 
-Assignment Information
-Course: CSYE 6225 - Network Structures and Cloud Computing
-Semester: Fall 2025
-Assignment: 02
+
