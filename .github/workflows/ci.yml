@@ -39,20 +39,10 @@ jobs:
       - name: Run integration tests
         run: mvn clean test
 
-      # Step 5: Upload test results (optional but helpful)
+      # Step 5: Upload test results (optional)
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: target/surefire-reports/
-
-      # Step 6: Publish test report (optional)
-      - name: Publish test report
-        if: always()
-        uses: dorny/test-reporter@v1
-        with:
-          name: Maven Tests
-          path: target/surefire-reports/*.xml
-          reporter: java-junit
-          fail-on-error: true
